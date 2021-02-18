@@ -7,7 +7,7 @@ class Downloader {
 	private $progress = 0;
 	private $ctx = null;
 
-	function __construct( $dir ) {
+	function __construct( string $dir ) {
 		if ( !is_dir( $dir ) ) $dir = __DIR__;
 
 		$this->dir = $dir;
@@ -15,7 +15,7 @@ class Downloader {
 		if ( !is_dir( $this->dir ) ) mkdir( $this->dir, 0777, true );
 	}
 
-	function import_urls( $file ) {
+	function import_urls( string $file ) {
 		$pathinfo = pathinfo( $file );
 
 		switch ( $pathinfo['extension'] ) {
@@ -37,7 +37,7 @@ class Downloader {
 		}
 	}
 
-	function download( $url ) {
+	function download( string|array $url ) {
 		if ( is_array( $url ) ) {
 			foreach ( $url as $_url ) {
 				$this->download( $_url );
@@ -157,7 +157,7 @@ class Downloader {
 		echo "\r{$str}";
 	}
 
-	private function _convert_filesize( $bytes, $decimals=2 ) {
+	private function _convert_filesize( int $bytes, int $decimals=2 ) {
 		$size = [ 'B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB' ];
 		$factor = floor( ( strlen( $bytes ) - 1 ) / 3 );
 		$n = sprintf( "%.{$decimals}f", $bytes / pow( 1024, $factor ) );
